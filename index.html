@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebPro — Курс веб-разработки с нуля до профи</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--white);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1.2rem 0;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-nav {
+            padding: 0.8rem 2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 2rem 6rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(79, 70, 229, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat .label {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1.2rem 3rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 1.2rem 3rem;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .hero-card-placeholder {
+            height: 350px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #cffafe 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .floating-badge:nth-child(2) {
+            top: -20px;
+            right: -30px;
+            animation-delay: 0s;
+        }
+
+        .floating-badge:nth-child(3) {
+            bottom: 40px;
+            left: -40px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .floating-badge .icon {
+            font-size: 2rem;
+        }
+
+        .floating-badge .text {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(79, 70, 229, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #e0e7ff 0%, #cffafe 100%);
+            border-radius: 25px;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+        }
+
+        .about-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .about-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+        }
+
+        .about-features {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .about-features li {
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--dark);
+        }
+
+        .about-features li::before {
+            content: '✓';
+            width: 28px;
+            height: 28px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Program Section */
+        .program {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+        }
+
+        .program-timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .program-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+
+        .program-module {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .module-number {
+            width: 100px;
+            flex-shrink: 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .module-number .circle {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+        }
+
+        .module-number .label {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .module-content {
+            flex: 1;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            transition: all 0.3s;
+        }
+
+        .module-content:hover {
+            transform: translateX(10px);
+            box-shadow: 0 20px 60px rgba(79, 70, 229, 0.15);
+            border-color: var(--primary);
+        }
+
+        .module-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .module-content h3 .duration {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 400;
+            background: var(--light);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+        }
+
+        .module-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .module-topics {
+            list-style: none;
+        }
+
+        .module-topics li {
+            padding: 0.7rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .module-topics li::before {
+            content: '▸';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* What You Learn Section */
+        .learn {
+            background: var(--white);
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .learn-card {
+            background: var(--light);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .learn-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .learn-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .learn-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .learn-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Instructor Section */
+        .instructor {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+        }
+
+        .instructor .section-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .instructor .section-title {
+            color: white;
+        }
+
+        .instructor .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .instructor-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .instructor-image {
+            background: linear-gradient(135deg, #e0e7ff 0%, #cffafe 100%);
+            border-radius: 25px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10rem;
+        }
+
+        .instructor-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .instructor-content .role {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .instructor-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.9;
+        }
+
+        .instructor-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .instructor-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .instructor-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .instructor-stat .label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-stars {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .author-info h4 {
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            border: 2px solid var(--light);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 25px 80px rgba(79, 70, 229, 0.15);
+        }
+
+        .pricing-card.featured::before {
+            content: 'ПОПУЛЯРНЫЙ';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            padding: 0.5rem 2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price span {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .pricing-features li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-pricing {
+            width: 100%;
+            padding: 1.2rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-pricing:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .pricing-card.featured .btn-pricing {
+            background: var(--gradient);
+            border: none;
+            color: white;
+        }
+
+        .pricing-card.featured .btn-pricing:hover {
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: var(--light);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--light);
+        }
+
+        .faq-question h4 {
+            font-size: 1.15rem;
+            color: var(--dark);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 2rem 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: var(--gradient);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-container h2 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .cta-container p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-white {
+            padding: 1.5rem 4rem;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                display: none;
+            }
+
+            .about-grid,
+            .instructor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .program-timeline::before {
+                left: 30px;
+            }
+
+            .module-number .circle {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .module-number {
+                width: 60px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .instructor-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-container h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">📚 WebPro</a>
+            <ul class="nav-links">
+                <li><a href="#about">О курсе</a></li>
+                <li><a href="#program">Программа</a></li>
+                <li><a href="#instructor">Преподаватель</a></li>
+                <li><a href="#pricing">Тарифы</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><button class="btn-nav">Записаться</button></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div>
+                <div class="hero-badge">
+                    🎓 Старт потока: 15 января
+                </div>
+                <h1>
+                    Освой веб-разработку <span>с нуля до профи</span> за 6 месяцев
+                </h1>
+                <p>
+                    Практический курс по созданию современных веб-сайтов. 
+                    HTML, CSS, JavaScript, React, Node.js — всё в одной программе. 
+                    Дипломный проект и сертификат по окончании.
+                </p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="number">500+</div>
+                        <div class="label">Выпускников</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="number">92%</div>
+                        <div class="label">Трудоустроены</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="number">6</div>
+                        <div class="label">Мецев обучения</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#pricing" class="btn-primary">
+                        Начать обучение
+                        <span>→</span>
+                    </a>
+                    <a href="#program" class="btn-secondary">
+                        Смотреть программу
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card">
+                    <div class="hero-card-placeholder">💻</div>
+                    <div class="floating-badge">
+                        <span class="icon">📜</span>
+                        <span class="text">Сертификат</span>
+                    </div>
+                    <div class="floating-badge">
+                        <span class="icon">🎯</span>
+                        <span class="text">10 проектов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image fade-in">🎓</div>
+                <div class="about-content fade-in">
+                    <h3>Что вы получите после курса</h3>
+                    <p>
+                        Наш курс создан для тех, кто хочет начать карьеру в IT без предыдущего опыта. 
+                        Мы даём не только теорию, но и реальную практику на живых проектах.
+                    </p>
+                    <p>
+                        К концу обучения у вас будет портфолио из 10+ проектов, которые можно 
+                        показать работодателю, и уверенность в своих силах.
+                    </p>
+                    <ul class="about-features">
+                        <li>Актуальная программа 2024 года</li>
+                        <li>Персональный ментор и поддержка 24/7</li>
+                        <li>Помощь в составлении резюме и подготовке к собеседованиям</li>
+                        <li>Доступ к закрытому чату выпускников</li>
+                        <li>Гарантия трудоустройства или возврат денег</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Section -->
+    <section class="program" id="program">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Программа курса</div>
+                <h2 class="section-title">Чему вы научитесь</h2>
+                <p class="section-subtitle">
+                    Пошаговая программа от основ до продвинутых технологий. 
+                    6 месяцев интенсивного обучения с практикой
+                </p>
+            </div>
+            <div class="program-timeline">
+                <div class="program-module fade-in">
+                    <div class="module-number">
+                        <div class="circle">1</div>
+                        <div class="label">Недели 1-4</div>
+                    </div>
+                    <div class="module-content">
+                        <h3>
+                            Основы HTML & CSS
+                            <span class="duration">4 недели</span>
+                        </h3>
+                        <p>
+                            Изучите фундамент веб-разработки. Научитесь создавать структуру страниц 
+                            и стилизовать их по современным стандартам.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Семантическая вёрстка HTML5</li>
+                            <li>Flexbox и Grid Layout</li>
+                            <li>Адаптивная вёрстка (Responsive)</li>
+                            <li>CSS-анимации и переходы</li>
+                            <li>Методология БЭМ</li>
+                            <li>Проект: Лендинг компании</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="program-module fade-in">
+                    <div class="module-number">
+                        <div class="circle">2</div>
+                        <div class="label">Недели 5-10</div>
+                    </div>
+                    <div class="module-content">
+                        <h3>
+                            JavaScript для начинающих
+                            <span class="duration">6 недель</span>
+                        </h3>
+                        <p>
+                            Освойте главный язык веб-разработки. От переменных до асинхронных запросов.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Основы синтаксиса JS</li>
+                            <li>Работа с DOM</li>
+                            <li>События и обработчики</li>
+                            <li>ES6+ (стрелки, деструктуризация)</li>
+                            <li>Fetch API и работа с сервером</li>
+                            <li>Проект: Интерактивный калькулятор</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="program-module fade-in">
+                    <div class="module-number">
+                        <div class="circle">3</div>
+                        <div class="label">Недели 11-16</div>
+                    </div>
+                    <div class="module-content">
+                        <h3>
+                            React и современные фреймворки
+                            <span class="duration">6 недель</span>
+                        </h3>
+                        <p>
+                            Изучите самую востребованную библиотеку для создания интерфейсов.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Компоненты и JSX</li>
+                            <li>Хуки (useState, useEffect)</li>
+                            <li>React Router</li>
+                            <li>State Management (Redux)</li>
+                            <li>Работа с API</li>
+                            <li>Проект: Интернет-магазин</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="program-module fade-in">
+                    <div class="module-number">
+                        <div class="circle">4</div>
+                        <div class="label">Недели 17-22</div>
+                    </div>
+                    <div class="module-content">
+                        <h3>
+                            Backend на Node.js
+                            <span class="duration">6 недель</span>
+                        </h3>
+                        <p>
+                            Научитесь создавать серверную часть приложений и работать с базами данных.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Node.js и Express</li>
+                            <li>REST API</li>
+                            <li>Базы данных (MongoDB, PostgreSQL)</li>
+                            <li>Аутентификация и авторизация</li>
+                            <li>Деплой на сервер</li>
+                            <li>Проект: Социальная сеть</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="program-module fade-in">
+                    <div class="module-number">
+                        <div class="circle">5</div>
+                        <div class="label">Недели 23-26</div>
+                    </div>
+                    <div class="module-content">
+                        <h3>
+                            Дипломный проект
+                            <span class="duration">4 недели</span>
+                        </h3>
+                        <p>
+                            Создайте полноценное приложение под руководством ментора для портфолио.
+                        </p>
+                        <ul class="module-topics">
+                            <li>Выбор темы проекта</li>
+                            <li>Проектирование архитектуры</li>
+                            <li>Разработка в команде</li>
+                            <li>Code Review</li>
+                            <li>Презентация проекта</li>
+                            <li>Защита диплома</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You Learn Section -->
+    <section class="learn">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Результат</div>
+                <h2 class="section-title">Что вы будете уметь</h2>
+                <p class="section-subtitle">
+                    Навыки, которые востребованы на рынке труда прямо сейчас
+                </p>
+            </div>
+            <div class="learn-grid">
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">🌐</div>
+                    <h3>Вёрстка сайтов</h3>
+                    <p>Создавать адаптивные сайты любой сложности по макетам из Figma</p>
+                </div>
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">⚡</div>
+                    <h3>JavaScript</h3>
+                    <p>Писать чистый код, работать с API и создавать интерактивные интерфейсы</p>
+                </div>
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">⚛️</div>
+                    <h3>React</h3>
+                    <p>Разрабатывать сложные SPA-приложения с использованием хуков и Redux</p>
+                </div>
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">🔧</div>
+                    <h3>Backend</h3>
+                    <p>Создавать серверную часть, работать с базами данных и деплоить проекты</p>
+                </div>
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">📱</div>
+                    <h3>Mobile First</h3>
+                    <p>Делать сайты, которые идеально работают на всех устройствах</p>
+                </div>
+                <div class="learn-card fade-in">
+                    <div class="learn-icon">🚀</div>
+                    <h3>Git & Deployment</h3>
+                    <p>Работать в команде, использовать Git и публиковать проекты</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructor Section -->
+    <section class="instructor" id="instructor">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Преподаватель</div>
+                <h2 class="section-title">Кто будет вас учить</h2>
+                <p class="section-subtitle">
+                    Опытный разработчик с реальными проектами за плечами
+                </p>
+            </div>
+            <div class="instructor-grid fade-in">
+                <div class="instructor-image">👨‍</div>
+                <div class="instructor-content">
+                    <h3>Александр Волков</h3>
+                    <p class="role">Senior Frontend Developer @ TechCorp</p>
+                    <p>
+                        Более 10 лет в веб-разработке. Работал в Яндекс, Сбер и международных стартапах. 
+                        Обучил более 500 студентов, 92% из которых нашли работу в IT.
+                    </p>
+                    <p>
+                        Автор популярных курсов по JavaScript и React. Спикер конференций 
+                        Frontend Conf и JS Nation.
+                    </p>
+                    <div class="instructor-stats">
+                        <div class="instructor-stat">
+                            <div class="number">10+</div>
+                            <div class="label">Лет опыта</div>
+                        </div>
+                        <div class="instructor-stat">
+                            <div class="number">500+</div>
+                            <div class="label">Выпускников</div>
+                        </div>
+                        <div class="instructor-stat">
+                            <div class="number">50+</div>
+                            <div class="label">Проектов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Отзывы</div>
+                <h2 class="section-title">Истории выпускников</h2>
+                <p class="section-subtitle">
+                    Что говорят те, кто уже прошёл курс и нашёл работу
+                </p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        Курс полностью изменил мою жизнь! Я был менеджером по продажам, 
+                        а через 6 месяцев после начала обучения получил оффер на позицию 
+                        Junior Frontend с зарплатой 80 000 ₽. Менторы всегда помогали!
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ИМ</div>
+                        <div class="author-info">
+                            <h4>Иван Михайлов</h4>
+                            <p>Frontend Developer @ Startup</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        Лучшее вложение в себя! Программа актуальная, много практики. 
+                        Дипломный проект стал основой моего портфолио. Сейчас работаю 
+                        удалённо на американскую компанию.
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ЕК</div>
+                        <div class="author-info">
+                            <h4>Елена Козлова</h4>
+                            <p>Fullstack Developer @ Remote</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        Пробовал учиться самостоятельно — не получилось. Здесь всё 
+                        структурировано, есть поддержка и дедлайны. Через 2 месяца 
+                        после выпуска устроился в крупную компанию. Рекомендую!
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">ДС</div>
+                        <div class="author-info">
+                            <h4>Дмитрий Соколов</h4>
+                            <p>Frontend Developer @ Bank</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Тарифы</div>
+                <h2 class="section-title">Выберите свой план</h2>
+                <p class="section-subtitle">
+                    Гибкие условия оплаты. Рассрочка 0% на 12 месяцев
+                </p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in">
+                    <div class="pricing-header">
+                        <h3>Самостоятельный</h3>
+                        <div class="price-old">59 900 ₽</div>
+                        <div class="price">
+                            39 900 ₽<span></span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Доступ ко всем лекциям</li>
+                        <li>Домашние задания без проверки</li>
+                        <li>Доступ к чату студентов</li>
+                        <li>Сертификат об окончании</li>
+                        <li>Доступ на 12 месяцев</li>
+                    </ul>
+                    <button class="btn-pricing">Выбрать тариф</button>
+                </div>
+                <div class="pricing-card featured fade-in">
+                    <div class="pricing-header">
+                        <h3>С ментором</h3>
+                        <div class="price-old">99 900 ₽</div>
+                        <div class="price">
+                            69 900 ₽<span></span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Всё из тарифа «Самостоятельный»</li>
+                        <li>Проверка ДЗ ментором</li>
+                        <li>Персональные созвоны 2 раза в месяц</li>
+                        <li>Помощь с резюме и портфолио</li>
+                        <li>Гарантия трудоустройства</li>
+                        <li>Доступ на 18 месяцев</li>
+                    </ul>
+                    <button class="btn-pricing">Выбрать тариф</button>
+                </div>
+                <div class="pricing-card fade-in">
+                    <div class="pricing-header">
+                        <h3>VIP</h3>
+                        <div class="price-old">149 900 ₽</div>
+                        <div class="price">
+                            99 900 ₽<span></span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Всё из тарифа «С ментором»</li>
+                        <li>Еженедельные созвоны с ментором</li>
+                        <li>Code Review каждого проекта</li>
+                        <li>Приоритетная поддержка 24/7</li>
+                        <li>Личная рекомендация работодателю</li>
+                        <li>Доступ навсегда</li>
+                    </ul>
+                    <button class="btn-pricing">Выбрать тариф</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">FAQ</div>
+                <h2 class="section-title">Частые вопросы</h2>
+                <p class="section-subtitle">
+                    Ответы на самые популярные вопросы о курсе
+                </p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <h4>Нужен ли опыт программирования для начала?</h4>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Нет, курс рассчитан на полное отсутствие опыта. Мы начинаем с самых основ 
+                            и постепенно переходим к сложным темам. Главное — ваше желание учиться 
+                            и уделять время практике (минимум 10-15 часов в неделю).
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <h4>Сколько времени нужно уделять обучению?</h4>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Рекомендуем уделять обучению 15-20 часов в неделю. Лекции можно смотреть 
+                            в удобное время, они остаются в записи. Домашние задания нужно сдать 
+                            до следующего модуля.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <h4>Что если не успеваю пройти курс?</h4>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            У вас есть доступ к материалам на 12-18 месяцев (в зависимости от тарифа). 
+                            Можно учиться в своём темпе. Если нужны дополнительные сроки — обсудим 
+                            индивидуально с куратором.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <h4>Помогаете ли с трудоустройством?</h4>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Да! На тарифах «С ментором» и «VIP» мы помогаем составить резюме, 
+                            подготовить портфолио и проводим mock-собеседования. У нас есть 
+                            партнёры-работодатели, которым рекомендуем лучших выпускников. 
+                            92% наших студентов находят работу в течение 3 месяцев после выпуска.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <h4>Можно ли оплатить в рассрочку?</h4>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Да, мы предлагаем беспроцентную рассрочку на 12 месяцев от наших 
+                            партнёров. Первый платеж через месяц после начала обучения. 
+                            Также принимаем оплату картой и криптовалютой.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container fade-in">
+            <h2>Готовы начать карьеру в IT?</h2>
+            <p>
+                Запишитесь на курс сейчас и получите скидку 30%. 
+                Следующий поток стартует 15 января — мест осталось мало!
+            </p>
+            <a href="#pricing" class="btn-white">
+                Записаться на курс
+                <span>→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">📚 WebPro</a>
+                <p>
+                    Онлайн-школа веб-разработки. Обучаем профессии 
+                    frontend-разработчика с нуля до трудоустройства.
+                </p>
+            </div>
+            <div class="footer-column">
+                <h4>Курс</h4>
+                <ul>
+                    <li><a href="#program">Программа</a></li>
+                    <li><a href="#instructor">Преподаватели</a></li>
+                    <li><a href="#pricing">Тарифы</a></li>
+                    <li><a href="#">Отзывы</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Компания</h4>
+                <ul>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">Карьера</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#">Помощь</a></li>
+                    <li><a href="#">Политика возврата</a></li>
+                    <li><a href="#">Оферта</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 WebPro. Все права защищены.</p>
+            <p>📧 hello@webpro.school | 📞 +7 (999) 123-45-67</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '100%';
+            navLinks.style.left = '0';
+            navLinks.style.right = '0';
+            navLinks.style.background = 'white';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.padding = '2rem';
+            navLinks.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+        });
+
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Counter animation for stats
+        const animateCounter = (element, target, duration = 2000) => {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + (element.dataset.suffix || '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + (element.dataset.suffix || '');
+                }
+            }, 16);
+        };
+
+        // Initialize FAQ first item open
+        document.querySelector('.faq-item').classList.add('active');
+    </script>
+</body>
+</html>
